@@ -1,0 +1,8 @@
+*.dll
+*.filters
+*.user
+*.png
+lib/
+include/
+Debug/
+.vs/
