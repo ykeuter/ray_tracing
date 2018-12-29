@@ -3,11 +3,16 @@
 
 #include <iostream>
 #include "Scene.h"
+#include "Vec3.h"
+
+using namespace std;
 
 int main()
 {
-    Scene s;
-    s.render();
+    //Scene s;
+    //s.render();
+    Vec3 a = Vec3(1,2,3);
+    cout << (a + a).xyz[0];
 }
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu
