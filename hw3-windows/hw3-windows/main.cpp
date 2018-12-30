@@ -4,15 +4,18 @@
 #include <iostream>
 #include "Scene.h"
 #include "Vec3.h"
+#include "Camera.h"
+#include "Ray.h"
 
 using namespace std;
 
 int main()
 {
-    //Scene s;
-    //s.render();
-    Vec3 a = Vec3(1,2,3);
-    cout << (a + a).xyz[0];
+    Scene s;
+    s.render();
+    //Camera c(0, 0, -1, 0, 0, 0, 0, 1, 0, 45, 10, 10);
+    //Ray r = c.RayThruPixel(0, 0);
+    //cout << r;
 }
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu

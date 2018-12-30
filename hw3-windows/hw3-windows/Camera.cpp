@@ -1,7 +1,8 @@
 #include "Camera.h"
 #include <math.h>
+#include <iostream>
 
-
+const float pi = 3.14159265f;
 
 Camera::Camera(float lookfromx, float lookfromy, float lookfromz,
                float lookatx, float lookaty, float lookatz,
@@ -18,14 +19,21 @@ Camera::Camera(float lookfromx, float lookfromy, float lookfromz,
   u = Vec3::cross(up, w);
   u.normalize();
   v = Vec3::cross(w, u);
-  tan_ = tan(fovy / 2.0f);
+  tan_ = tan(fovy / 360.0f * pi);
+  //std::cout << tan_ << std::endl;
+  //std::cout << u << std::endl;
+  //std::cout << v << std::endl;
+  //std::cout << w << std::endl;
 }
 
 Ray Camera::RayThruPixel(float x, float y)
 {
   float alpha = tan_ / height * (2 * x - width);
   float beta = tan_ * (2 * y - height) / height;
-  Vec3 d = (alpha * u) + (beta * v) + w;
+  /*std::cout << alpha << std::endl;
+  std::cout << beta << std::endl;*/
+  Vec3 d = alpha * u + beta * v + w;
+  //std::cout << (alpha * u) << std::endl;
   d.normalize();
-  return Ray();
+  return Ray(lookfrom, d);
 }

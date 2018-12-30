@@ -1,4 +1,6 @@
 #pragma once
+#include <iostream>
+
 class Vec3
 {
 public:
@@ -13,9 +15,11 @@ public:
   ~Vec3() {}
   void normalize();
   static Vec3 cross(Vec3&, Vec3&);
+  static float dot(const Vec3&, const Vec3&);
 };
 
 Vec3 operator+(Vec3 a, const Vec3& b);
 Vec3 operator*(float a, Vec3 b);
-Vec3 operator-(Vec3 a, Vec3& b);
+Vec3 operator-(Vec3 a, const Vec3& b);
+std::ostream& operator<<(std::ostream&, const Vec3&);
 

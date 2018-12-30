@@ -3,6 +3,7 @@
 #include "Vec3.h"
 #include "Ray.h"
 
+
 class Camera
 {
   Vec3 lookfrom;
