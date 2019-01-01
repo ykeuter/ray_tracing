@@ -6,3 +6,4 @@ lib/
 include/
 Debug/
 .vs/
+*.test

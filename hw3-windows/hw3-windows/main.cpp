@@ -3,16 +3,14 @@
 
 #include <iostream>
 #include "Scene.h"
-#include "Vec3.h"
-#include "Camera.h"
-#include "Ray.h"
+#include "readfile.h"
 
 using namespace std;
 
 int main()
 {
-    Scene s;
-    s.render();
+    Scene s = readfile("scene1.test");
+    s.Render();
     //Camera c(0, 0, -1, 0, 0, 0, 0, 1, 0, 45, 10, 10);
     //Ray r = c.RayThruPixel(0, 0);
     //cout << r;

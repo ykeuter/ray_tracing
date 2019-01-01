@@ -2,8 +2,9 @@
 
 #include "Vec3.h"
 #include "Ray.h"
+#include "Geometry.h"
 
-class Triangle
+class Triangle : public Geometry
 {
 Vec3 abc[3];
 Vec3 a_;
