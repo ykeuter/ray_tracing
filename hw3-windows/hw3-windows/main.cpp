@@ -9,8 +9,9 @@ using namespace std;
 
 int main()
 {
-    Scene s = readfile("scene1.test");
-    s.Render();
+    Scene* s = readfile("scene3.test");
+    s->Render();
+    delete s;
     //Camera c(0, 0, -1, 0, 0, 0, 0, 1, 0, 45, 10, 10);
     //Ray r = c.RayThruPixel(0, 0);
     //cout << r;

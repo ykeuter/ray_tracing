@@ -7,12 +7,12 @@
 class Scene
 {
   std::vector<Geometry*> geos;
-  Camera* cam;
+  Camera* cam = nullptr;
 public:
   void Add(Geometry*);
   void Add(Camera*);
   Scene();
-  virtual ~Scene();
+  ~Scene();
   void Render();
 };
 

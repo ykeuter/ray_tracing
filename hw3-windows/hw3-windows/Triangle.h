@@ -14,6 +14,6 @@ float aa, ab, bb, denom;
 public:
   Triangle(const Vec3&, const Vec3&, const Vec3&);
   ~Triangle();
-  float Intersect(Ray&);
+  float Intersect(const Ray & r);
 };
 

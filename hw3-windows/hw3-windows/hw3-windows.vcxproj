@@ -160,6 +160,7 @@
     <ClCompile Include="readfile.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="Ray.cpp" />
+    <ClCompile Include="Sphere.cpp" />
     <ClCompile Include="Transform.cpp" />
     <ClCompile Include="Triangle.cpp" />
     <ClCompile Include="Vec3.cpp" />
@@ -170,6 +171,7 @@
     <ClInclude Include="Ray.h" />
     <ClInclude Include="readfile.h" />
     <ClInclude Include="Scene.h" />
+    <ClInclude Include="Sphere.h" />
     <ClInclude Include="Transform.h" />
     <ClInclude Include="Triangle.h" />
     <ClInclude Include="Vec3.h" />

@@ -23,12 +23,12 @@ Triangle::~Triangle()
 {
 }
 
-float Triangle::Intersect(Ray& r) {
-  Vec3& p0 = r.orig;
-  Vec3& p1 = r.dir;
+float Triangle::Intersect(const Ray& r) {
+  const Vec3& p0 = r.orig;
+  const Vec3& p1 = r.dir;
   float div = Vec3::dot(p1, n);
   if (div == .0) return -1.0f;
-  float t = Vec3::dot(abc[0] - p0, n);
+  float t = Vec3::dot(abc[0] - p0, n) / div;
   if (t < 0) return -1.f;
   Vec3 q_ = p0 + t * p1 - abc[2];
   float aq = Vec3::dot(a_, q_);

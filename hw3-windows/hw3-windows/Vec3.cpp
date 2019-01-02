@@ -1,5 +1,6 @@
 #include "Vec3.h"
 #include <math.h>
+#include <iostream>
 
 Vec3 operator+(Vec3 a, const Vec3& b) {
   for (int i = 0; i < 3; i++) {

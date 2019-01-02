@@ -16,9 +16,9 @@ Camera::Camera(float lookfromx, float lookfromy, float lookfromz,
   this->height = height;
   w = lookat - lookfrom;
   w.normalize();
-  u = Vec3::cross(up, w);
+  u = Vec3::cross(w, up);
   u.normalize();
-  v = Vec3::cross(w, u);
+  v = Vec3::cross(u, w);
   tan_ = tan(fovy / 360.0f * pi);
   //std::cout << tan_ << std::endl;
   //std::cout << u << std::endl;

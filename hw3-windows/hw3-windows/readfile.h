@@ -4,4 +4,4 @@
 #include "Scene.h"
 
 bool readvals(std::stringstream &s, const int numvals, float * values);
-Scene readfile(const char * filename);
+Scene* readfile(const char * filename);
