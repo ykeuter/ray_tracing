@@ -7,12 +7,12 @@
 class Sphere :
   public Geometry
 {
-  Vec3 center;
   float radius;
-  Transform transf;
+  Mat4 minv;
+  Mat4 minvtminv;
 public:
-  Sphere(const Vec3& c, const float r, const Transform& t);
-  ~Sphere();
+  Sphere(float x, float y, float z, float r, const Transform& t);
   float Intersect(const Ray & r);
+  Vec3 GetNormal(const Vec3&);
 };
 

@@ -31,11 +31,11 @@ bool readvals(stringstream &s, const int numvals, float* values)
 Scene* readfile(const char* filename)
 {
   Scene* sc = new Scene();
-  float ambient[3] = {.2f, .2f, .2f};
-  float diffuse[3];
-  float specular[3];
-  float emission[3];
-  float shininess = .0f;
+  Vec3 ambient(.2f, .2f, .2f);
+  Vec3 diffuse(.0f, .0f, .0f);
+  Vec3 specular(.0f, .0f, .0f);
+  Vec3 emission(.0f, .0f, .0f);
+  float shininess = 1.f;
   int width, height;
   vector<Vec3> vertices;
   stack<Transform> transf;
@@ -100,6 +100,18 @@ Scene* readfile(const char* filename)
             shininess = values[0];
           }
         }
+        else if (cmd == "maxdepth") {
+          validinput = readvals(s, 1, values);
+          if (validinput) {
+            sc->SetDepth(int(values[0]));
+          }
+        }
+        else if (cmd == "attenuation") {
+          validinput = readvals(s, 3, values);
+          if (validinput) {
+            sc->SetAttenuation(values[0], values[1], values[2]);
+          }
+        }
         else if (cmd == "size") {
           validinput = readvals(s, 2, values);
           if (validinput) {
@@ -107,14 +119,19 @@ Scene* readfile(const char* filename)
             height = (int)values[1];
           }
         }
+        else if (cmd == "output") {
+          string out;
+          s >> out;
+          sc->SetFilename(out);
+        }
         else if (cmd == "camera") {
           validinput = readvals(s, 10, values); // 10 values eye cen up fov
           if (validinput) {
-            Camera* c = new Camera(values[0], values[1], values[2],
-              values[3], values[4], values[5],
-              values[6], values[7], values[8],
-              values[9], width, height);
-            sc->Add(c);
+            Camera c(values[0], values[1], values[2],
+                     values[3], values[4], values[5],
+                     values[6], values[7], values[8],
+                     values[9], width, height);
+            sc->SetCamera(c);
           }
         }
 
@@ -128,9 +145,10 @@ Scene* readfile(const char* filename)
         else if (cmd == "tri") {
           validinput = readvals(s, 3, values); // 10 values eye cen up fov
           if (validinput) {
-            Triangle* t = new Triangle(transf.top().Eval(vertices[(int)values[0]]),
-                                       transf.top().Eval(vertices[(int)values[1]]),
-                                       transf.top().Eval(vertices[(int)values[2]]));
+            Triangle* t = new Triangle(vertices[(int)values[0]],
+                                       vertices[(int)values[1]],
+                                       vertices[(int)values[2]],
+                                       transf.top());
             t->SetProperties(ambient, diffuse, specular, emission, shininess);
             sc->Add(t);
           }
@@ -139,9 +157,25 @@ Scene* readfile(const char* filename)
         else if (cmd == "sphere") {
           validinput = readvals(s, 4, values); // 10 values eye cen up fov
           if (validinput) {
-            Sphere* sp = new Sphere(Vec3(values[0], values[1], values[2]), values[3], transf.top());
+            Sphere* sp = new Sphere(values[0], values[1], values[2], values[3], transf.top());
             sp->SetProperties(ambient, diffuse, specular, emission, shininess);
             sc->Add(sp);
+          }
+        }
+
+        else if (cmd == "directional") {
+          validinput = readvals(s, 6, values); // 10 values eye cen up fov
+          if (validinput) {
+            Light* t = new Light(values[0], values[1], values[2], values[3], values[4], values[5], true);
+            sc->Add(t);
+          }
+        }
+
+        else if (cmd == "point") {
+          validinput = readvals(s, 6, values); // 10 values eye cen up fov
+          if (validinput) {
+            Light* t = new Light(values[0], values[1], values[2], values[3], values[4], values[5], false);
+            sc->Add(t);
           }
         }
 
@@ -192,7 +226,7 @@ Scene* readfile(const char* filename)
   }
   else {
     cerr << "Unable to Open Input Data File " << filename << "\n";
-    throw 2;
+    exit(1);
   }
   return sc;
 }

@@ -2,47 +2,29 @@
 #include <math.h>
 #include <iostream>
 
-Vec3 operator+(Vec3 a, const Vec3& b) {
-  for (int i = 0; i < 3; i++) {
-    a.xyz[i] += b.xyz[i];
-  }
-  return a;
-}
-
-Vec3 operator-(Vec3 a, const Vec3& b) {
-  for (int i = 0; i < 3; i++) {
-    a.xyz[i] -= b.xyz[i];
-  }
-  return a;
-}
-
-Vec3 operator*(float a, Vec3 b) {
-  for (int i = 0; i < 3; i++) {
-    b.xyz[i] *= a;
-  }
-  return b;
-}
 
 std::ostream& operator<<(std::ostream& os, const Vec3& v) {
-  os << "[" << v.xyz[0] << "," << v.xyz[1] << "," << v.xyz[2] << "]";
+  os << "[" << v[0] << "," << v[1] << "," << v[2] << "]";
   return os;
 }
 
+float Vec3::Length() {
+  float s = Vec3::dot(*this, *this);
+  return sqrt(s);
+}
 
 
-void Vec3::normalize()
-{
-  float s = 0;
-  for (int i = 0; i < 3; i++) {
-    s += this->xyz[i] * this->xyz[i];
-  }
-  s = sqrt(s);
+
+float Vec3::Normalize()
+{  
+  float s = this->Length();
   for (int i = 0; i < 3; i++) {
     this->xyz[i] /= s;
   }
+  return s;
 }
 
-Vec3 Vec3::cross(Vec3& a, Vec3& b)
+Vec3 Vec3::cross(const Vec3& a, const Vec3& b)
 {
   int i1, i2;
   Vec3 c;
@@ -62,3 +44,36 @@ float Vec3::dot(const Vec3& a, const Vec3& b)
   }
   return c;
 }
+
+Vec3 & Vec3::operator-=(const Vec3 & b)
+{
+  for (int i = 0; i < 3; i++) {
+    xyz[i] -= b[i];
+  }
+  return *this;
+}
+
+Vec3 & Vec3::operator+=(const Vec3 & b)
+{
+  for (int i = 0; i < 3; i++) {
+    xyz[i] += b[i];
+  }
+  return *this;
+}
+
+Vec3 & Vec3::operator*=(float b)
+{
+  for (int i = 0; i < 3; i++) {
+    xyz[i] *= b;
+  }
+  return *this;
+}
+
+Vec3 & Vec3::operator*=(const Vec3& b)
+{
+  for (int i = 0; i < 3; i++) {
+    xyz[i] *= b[i];
+  }
+  return *this;
+}
+

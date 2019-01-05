@@ -6,26 +6,23 @@
 
 
 
-Sphere::Sphere(const Vec3&c, const float r, const Transform& t)
+Sphere::Sphere(float x, float y, float z, float r, const Transform& t) : radius(r)
 {
-  center = c;
-  radius = r;
-  transf = t;
-}
-
-
-Sphere::~Sphere()
-{
+  Transform t2;
+  t2.Translate(x, y, z);
+  minv =  t2.minverse * t.minverse;
+  minvtminv = minv;
+  minvtminv.Transpose();
+  minvtminv = minvtminv * minv;
 }
 
 float Sphere::Intersect(const Ray& r)
 {
-  Vec3 p0 = transf.Eval(r.orig, true);
-  Vec3 p1 = transf.Eval(r.dir, true, .0f);
-  Vec3 p0c = p0 - center;
+  Vec3 p0 = minv.Multiply(r.orig);
+  Vec3 p1 = minv.Multiply(r.dir, .0f);
   float a = Vec3::dot(p1, p1);
-  float b = 2 * Vec3::dot(p1, p0c);
-  float c = Vec3::dot(p0c, p0c) - radius * radius;
+  float b = 2 * Vec3::dot(p1, p0);
+  float c = Vec3::dot(p0, p0) - radius * radius;
   float D = b * b - 4 * a * c;
   if (D < 0) return -1.f;
   float sqr = sqrt(D);
@@ -45,4 +42,11 @@ float Sphere::Intersect(const Ray& r)
   else {
     return d2;
   }
+}
+
+Vec3 Sphere::GetNormal(const Vec3 & p)
+{
+  Vec3 n = minvtminv.Multiply(p);
+  n.Normalize();
+  return n;
 }

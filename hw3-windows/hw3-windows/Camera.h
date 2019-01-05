@@ -17,12 +17,11 @@ class Camera
 public:
   int width;
   int height;
-  Camera() {}
-  ~Camera() {}
   Camera(float lookfromx, float lookfromy, float lookfromz, 
          float lookatx, float lookaty, float lookatz, 
          float upx, float upy, float upz, 
          float fovy, int width, int height);
+  Camera() {}
   Ray RayThruPixel(float, float);
 };
 

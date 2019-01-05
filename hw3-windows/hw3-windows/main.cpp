@@ -7,14 +7,17 @@
 
 using namespace std;
 
-int main()
+int main(int argc, char* argv[])
 {
-    Scene* s = readfile("scene3.test");
-    s->Render();
-    delete s;
-    //Camera c(0, 0, -1, 0, 0, 0, 0, 1, 0, 45, 10, 10);
-    //Ray r = c.RayThruPixel(0, 0);
-    //cout << r;
+  if (argc < 2) {
+    cerr << "Usage: hw3-windows scenefile\n";
+    exit(-1);
+  }
+
+  Scene* s = readfile(argv[1]);
+  s->Render();
+  delete s;
+  return 0;
 }
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu

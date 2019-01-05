@@ -1,26 +1,25 @@
 #include "Triangle.h"
 #include "Vec3.h"
+#include "Transform.h"
 
 
 
-Triangle::Triangle(const Vec3& a, const Vec3& b, const Vec3& c)
+Triangle::Triangle(const Vec3& a, const Vec3& b, const Vec3& c, const Transform& t) :
+abc{t.matrix.Multiply(a), t.matrix.Multiply(b), t.matrix.Multiply(c)}
 {
-  abc[0] = a;
-  abc[1] = b;
-  abc[2] = c;
-  a_ = a - c;
-  b_ = b - c;
+  a_ = abc[0] - abc[2];
+  b_ = abc[1] - abc[2];
   aa = Vec3::dot(a_, a_);
   ab = Vec3::dot(a_, b_);
   bb = Vec3::dot(b_, b_);
   n = Vec3::cross(a_, b_);
-  n.normalize();
+  n.Normalize();
   denom = aa * bb - ab * ab;
 }
 
  
-Triangle::~Triangle()
-{
+Vec3 Triangle::GetNormal(const Vec3& p) {
+  return n;
 }
 
 float Triangle::Intersect(const Ray& r) {
@@ -30,7 +29,7 @@ float Triangle::Intersect(const Ray& r) {
   if (div == .0) return -1.0f;
   float t = Vec3::dot(abc[0] - p0, n) / div;
   if (t < 0) return -1.f;
-  Vec3 q_ = p0 + t * p1 - abc[2];
+  Vec3 q_ = p0 + p1 * t - abc[2];
   float aq = Vec3::dot(a_, q_);
   float bq = Vec3::dot(b_, q_);
   float alpha = bb * aq - ab * bq;

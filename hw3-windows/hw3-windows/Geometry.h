@@ -1,18 +1,20 @@
 #pragma once
 
 #include "Ray.h"
+#include "Vec3.h"
 
 class Geometry
 {
-  float diffuse[3];
-  float specular[3];
-  float emission[3];
+  Vec3 diffuse;
+  Vec3 emission;
+  Vec3 ambient;
   float shininess;
 public:
-  float ambient[3];
-  Geometry() {};
-  virtual ~Geometry() {};
-  virtual float Intersect(const Ray&) =0;
-  void SetProperties(float[], float[], float[], float[], float);
+  Vec3 specular;
+  virtual float Intersect(const Ray&) = 0;
+  virtual Vec3 GetNormal(const Vec3&) = 0;
+  void SetProperties(const Vec3&, const Vec3&, const Vec3&, const Vec3&, float);
+  Vec3 GetColor() { return ambient + emission; }
+  Vec3 GetLighting(const Vec3& normal, const Vec3& ligth, const Vec3& cam);
 };
 
